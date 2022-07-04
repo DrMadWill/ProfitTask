@@ -1,0 +1,19 @@
+Tapşırıq: REST API(Client) yaradılmalı 
+
+Açıqlama: 
+Mövcud olan Api-dən ixtiyari məlumatları əldə edib və məlumat bazasında yadda saxlanılmalıdır.
+Bu məlumatları bir səhifə daxilində (table) əks etdirilməli və
+üzərində axtarış (istənilən 1 parametr əsasında) olunmalıdır.
+Səhifələmə məntiqi tətbiq olunmalıdır (bir səhifədə 10 məlumat görünsün).
+
+ Server kimi internet üzərindəki istənilən api qaynaqlarından istifadə oluna bilər:
+ Nümunə:
+ https://jsonplaceholder.typicode.com/
+ https://mocki.io/fake-json-api
+ 
+
+İstifadə olunan qaynaqlar:
+ASP.NET Core MVC
+EntityFramework Core
+Məlumat bazası: MSSQL
+
