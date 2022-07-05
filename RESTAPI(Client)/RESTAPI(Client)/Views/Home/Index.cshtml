@@ -1,8 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model PaginationList<Post>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                
+                <h4 class="header-title">Use Back End</h4>
+
+                <form class="d-flex justify-content-end" method="get" action="/Home/Index">
+                    <div class="mb-3  d-flex">
+                      <input type="text" name="search" class="form-control w-75 " placeholder="Search">
+                      <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+
+                <div class="data-tables">
+                    <table id="dataTable" class="text-center table table-bordered ">
+                        <thead class="bg-light thead-dark text-capitalize">
+                            <tr>
+                                <th>Title</th>
+                                <th>Body</th>
+                                <th>Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>@item.Body</td>
+                                    <td>@item.Id</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item @(Model.PaginationLinkModel.HasPreviousPage?"":"disabled")">
+                      <a class="page-link" href="@Model.PaginationLinkModel.Link.Replace("page",(Model.PageIndex - 1).ToString())" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only"></span>
+                      </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex == i?"active":"")">
+                            <a class="page-link"  href="@Model.PaginationLinkModel.Link.Replace("page",i.ToString())">
+                                @i
+                            </a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PaginationLinkModel.HasNextPage?"":"disabled" )">
+                      <a class="page-link" href="#" aria-label="Next" href="@Model.PaginationLinkModel.Link.Replace("page",(Model.PageIndex + 1).ToString())>
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+        </div>
 </div>

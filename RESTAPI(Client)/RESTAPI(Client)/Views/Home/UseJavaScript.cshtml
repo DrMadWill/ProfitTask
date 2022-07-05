@@ -1,0 +1,48 @@
+﻿@model IList<Post>
+@section header{
+                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+}
+
+            <div class="container my-3">
+                 <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Use JavaScript</h4>
+                        <div class="data-tables">
+                            <table id="dataTable" class="text-center">
+                                <thead class="bg-light text-capitalize">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Body</th>
+                                        <th>Id</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Title</td>
+                                            <td>@item.Body</td>
+                                            <td>@item.Id</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+@section scripts{
+                <script>
+                    $(document).ready( function () {
+                         if ($('#dataTable').length) {
+                                    $('#dataTable').DataTable({
+                                        responsive: true
+                                    });
+                         }
+                    } );
+
+                </script>
+                <script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+}

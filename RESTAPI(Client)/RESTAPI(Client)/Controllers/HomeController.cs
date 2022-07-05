@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using RESTAPI_Client_.Data;
+using RESTAPI_Client_.Extensions;
 using RESTAPI_Client_.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +14,35 @@ namespace RESTAPI_Client_.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly PostDbContext _postDbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(PostDbContext postDbContext)
         {
-            _logger = logger;
+            _postDbContext = postDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? index,string search)
         {
-            return View();
+
+            IQueryable<Post> postQuery;
+            if (string.IsNullOrEmpty(search))
+            {
+                postQuery = _postDbContext.Posts.AsQueryable() ;
+            }
+            else
+            {
+                postQuery = _postDbContext.Posts.Where(post => post.Title.Contains(search)).AsQueryable();
+            }
+                    
+            var data = await PaginationList<Post>.CreateAsync(postQuery, index ?? 1, 10, "/Home/Index?index=page&search="+search);
+            return View(data);
+        }
+
+        public async Task<IActionResult> UseJavaScript()
+        {
+
+            var data = await _postDbContext.Posts.ToListAsync();
+            return View(data);
         }
 
         public IActionResult Privacy()
