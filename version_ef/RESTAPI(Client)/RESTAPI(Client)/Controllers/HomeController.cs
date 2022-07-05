@@ -18,34 +18,35 @@ namespace RESTAPI_Client_.Controllers
             _postDbContext = postDbContext;
         }
 
+        // Index | GET
+        [HttpGet]
         public async Task<IActionResult> Index(int? index,string search)
         {
-
+            
             IQueryable<Post> postQuery;
+            // Check search value
             if (string.IsNullOrEmpty(search))
             {
                 postQuery = _postDbContext.Posts.AsQueryable() ;
             }
             else
             {
+                // Search Candition
                 postQuery = _postDbContext.Posts.Where(post => post.Title.Contains(search)).AsQueryable();
             }
-                    
+            // My Extension
             var data = await PaginationList<Post>.CreateAsync(postQuery, index ?? 1, 10, "/Home/Index?index=page&search="+search);
             return View(data);
         }
 
+        // UseJavaScript | GET
         public async Task<IActionResult> UseJavaScript()
         {
-
+            // Select all data send Front
             var data = await _postDbContext.Posts.ToListAsync();
             return View(data);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

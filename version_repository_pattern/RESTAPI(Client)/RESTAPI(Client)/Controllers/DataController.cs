@@ -22,13 +22,21 @@ namespace RESTAPI_Client_.Controllers
             _postRepository = postRepository;
             _configuration = configuration;
         }
+
+        // Index | GET
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            // Post All Data Count
             var postsCount = await _postRepository.GetCount();
+
             DataSeedVM dataSeedVM = new DataSeedVM();
+
+            // Check Table Empty
             if (postsCount == 0)
             {
-                List<Post> posts;
+                List<Post> posts = new List<Post>();
+                // Connect Api 
                 using (var httpClient = new HttpClient())
                 {
                     string api = _configuration.GetSection("Apis")["Post"];
@@ -38,6 +46,7 @@ namespace RESTAPI_Client_.Controllers
                 }
 
 
+                // Data Check
                 if (posts.Count > 0)
                 {
                     foreach (var item in posts)
